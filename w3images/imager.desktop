@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=imager
+Comment=
+Exec=pdftocairo white.pdf  -jpeg -scale-to-x 640 -scale-to-y 480  athul
+
+Icon=
+Path=
+Terminal=false
+StartupNotify=false
