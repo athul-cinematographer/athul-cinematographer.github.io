@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>HLS</title>
+        <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+    </head>
+    
+
+    <body onload="videoLoad()">
+
+        <video id="video" controls></video>
+        <script>
+            function videoLoad() {
+                var video = document.getElementById('video');
+                //  var videoSrc = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
+//            var videoSrc = './output.m3u8';
+                var videoSrc = "/videos/adola carpet/output.m3u8"
+                //
+                // First check for native browser HLS support
+                //
+                if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    video.src = videoSrc;
+                    //
+                    // If no native HLS support, check if HLS.js is supported
+                    //
+                } else if (Hls.isSupported()) {
+                    var hls = new Hls();
+                    hls.loadSource(videoSrc);
+                    hls.attachMedia(video);
+                }
+
+//            hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+//                video.muted = true;
+//                video.play();
+//            });
+            }
+        </script>
+    </body>
+</html>

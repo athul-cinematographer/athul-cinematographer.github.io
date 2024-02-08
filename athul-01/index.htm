@@ -2,7 +2,8 @@
 <link rel="stylesheet" href="/d_files/w3.css">
 <link rel="stylesheet" href="/d_files/css">
 <link rel="stylesheet" href="/d_files/font-awesome.min.css">
-
+<script src="/js/hls.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>-->
 <style>
     .meta {
         position: fixed;
@@ -26,13 +27,49 @@
         color: #8a8a8a;
     }
 
+    .lgt{
+        padding: 5px 10px 5px 10px;
+        font-size: 20pt;
+        background: #303030;
+        color: white;
+    }
 </style>
-<body style="background: darkslategrey">
+<script>
+    function videoLoad(videoSrc) {
+        var video = document.getElementById('video');
+        //  var videoSrc = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
+//        var videoSrc = "/videos/adola carpet/output.m3u8";
+        //
+        // First check for native browser HLS support
+        //
+        if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+            //
+            // If no native HLS support, check if HLS.js is supported
+            //
+        } else if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+        }
+
+//            hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+//                video.muted = true;
+//                video.play();
+//            });
+    }
+</script>
+<body onload="videoLoad('/videos/C3885/output.m3u8')" style="background: black">
     <header id="topBar" style="position: fixed;z-index: 100; width: 100%;height:60px;background: white;top: 0px">
         <h1 class="w3-xlarge" style="float: left"> &nbsp; CINEMATOGRAPHER</h1>
         <h1 class="w3-xlarge"  style="float: right">  ATHUL KV &nbsp;</h1>
+        
+         <div style="position: fixed;top:90px;right:34px; "> 
+             <span class="lgt">&lt;</span>
+            <span class="lgt">&gt;</span>
+             </div>
     </header>
-
+   
     <div id="sidebar" style="position: fixed;z-index: 1; width: 200px;height:100%;background: black;top: 60px;left:0px">
         <div class="meta">
             <h1 data-shrink-original-size="27">Lee Jeans</h1>
@@ -47,38 +84,20 @@
                     Dir: ----
                 </p>
             </div>
-<!--            <div class="share-like">
-                <div class="squarespace-social-buttons inline-style" >
-                    <div id="social-yui_3_17_2_1_1707323651597_4977" class="yui3-widget yui3-socialbutton">
-                        <div id="yui_3_17_2_1_1707323651597_5057" class="yui3-socialbutton-content">
-                            <div class="ss-social-button-wrapper">
-                                <div class="ss-social-button">
-                                    <span class="ss-social-button-icon"></span>
-                                    Share
-                                </div>
-                            </div>
-                            <div class="ss-social-list-wrapper">
-                                <div class="ss-social-button-list">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
+   
         </div>
     </div>
-    <div class="w3-row-padding " style="position: absolute;left: 200px;top:120px; ">
-        
-      <video width="600" height="240" autoplay muted >
-  <source src="01.mp4" type="video/mp4">
-  <!--<source src="./01.mov" type="video/mov">-->
-  Your browser does not support HTML video.
-</video>  
-        
-    <img src="/w3images/athul-03.jpg" alt="" style="width:100%">
-    <img src="/w3images/athul-05.jpg" alt="" style="width:100%">
-    <img src="/w3images/athul-07.jpg" alt="" style="width:100%">
-    <img src="/w3images/athul-09.jpg" alt="" style="width:100%">
+    <div style="position: absolute;left: 246px; top:140px; width: 72%">
+        <!--<br> <br>-->
+        <div class="w3-margin" style="width: 100%;  overflow: hidden;">
+            <video id="video"  poster="/poster.jpg" style="width: 100%;" autoplay="autoplay" controls >
+            </video>
+        </div>
+
+        <img class="w3-margin" src="/w3images/scene-01.jpg" alt="" style="width:100%">
+        <img class="w3-margin" src="/w3images/scene-02.jpg" alt="" style="width:100%">
+        <img class="w3-margin" src="/w3images/scene-01.jpg" alt="" style="width:100%">
+        <img class="w3-margin" src="/w3images/scene-02.jpg" alt="" style="width:100%">
     </div>
 
 
