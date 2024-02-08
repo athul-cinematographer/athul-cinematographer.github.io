@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="./d_files/css">
         <link rel="stylesheet" href="./d_files/font-awesome.min.css">
         <script src="/js/hls.js"></script>
+        <script src="/js/angular.min.js"></script>
         <style>
             :root {
                 --blue: #1e90ff;
@@ -79,24 +80,35 @@
             .r{
                 display: flex;
             }
-            
+
             .bottomMargin{
                 padding-bottom: 5px;
             }
-            
+            #topBar{
+                position: fixed;
+                z-index: 3000;
+                width: 100%;
+                /*height:60px;*/
+                background: white;
+                top: 0px;
+                font-size: 15pt;
+                text-align: center;
+
+            }
+
         </style>
         <script>
-            function theatre() {
-                console.log('theatre');
+            var theatre = function (num) {
+                console.log('theatre num=' + num);
                 document.getElementById("theatre").style.display = 'flex';
                 document.body.scrollTop = document.documentElement.scrollTop = 0;
-                videoLoad();
-            }
-            function videoLoad() {
+                videoLoad(num);
+            };
+            function videoLoad(num) {
                 console.log('videoLoad');
                 var video = document.getElementById('video');
                 //  var videoSrc = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
-                var videoSrc = "/videos/adola carpet/output.m3u8";
+                var videoSrc = "/videos/" + num + "/output.m3u8";
                 //
                 // First check for native browser HLS support
                 //
@@ -116,16 +128,52 @@
 //                video.play();
 //            });
             }
+
+            var app = angular.module('app1', []);
+            app.controller('ctrl1', ($scope) => {
+
+                $scope.objects = {'left': [
+                        {'src': '0001', 'name': 'adola carpet'},
+                        {'src': '0003', 'name': 'exclusive offer'},
+                        {'src': '0005', 'name': 'mona video with out text'},
+                        {'src': '0007', 'name': 'ramadn'},
+                        {'src': '0009', 'name': 'WOW DEALS STORIE'}
+                    ],
+                    'right': [
+                        {'src': '0002', 'name': 'C3885'},
+                        {'src': '0004', 'name': 'ladies bag'},
+                        {'src': '0006', 'name': 'ramadan karreem'},
+                        {'src': '0008', 'name': 'trendy video 1'},
+                        {'src': '0010', 'name': '---'}
+                    ]
+                };
+
+                $scope.f1 = function () {
+//                    $scope.showMe = !$scope.showMe;
+                    alert($scope.count);
+                    console.log($scope.count);
+                };
+
+                $scope.ale = function (e) {
+//                    $scope.showMe = !$scope.showMe;
+                    alert(e);
+
+                };
+                $scope.theatre = theatre;
+
+            });
+
+
         </script>
     </head>
-    <body onload="videoLoad('/videos/C3885/output.m3u8')">
+    <body onload="videoLoad('0001')" ng-app="app1" ng-controller="ctrl1">
 
         <!-- !PAGE CONTENT! -->
         <div class="w3-content" style="max-width:1500px">
             <!-- Header -->
-            <header id="topBar" style="position: fixed;z-index: 3000; width: 100%;height:60px;background: white;top: 0px">
-                <h1 class="w3-xlarge" style="float: left"> &nbsp; CINEMATOGRAPHER</h1>
-                <h1 class="w3-xlarge"  style="float: right">  ATHUL KV &nbsp;</h1>
+            <header id="topBar"   style="">
+                <span  style="float: left; "> &nbsp; CINEMATOGRAPHER</span>
+                <span   style="float: right">  ATHUL KV &nbsp;</span>
             </header>
 
             <!-- theatre -->
@@ -156,14 +204,11 @@
                         </video>
 
                         <!--scenes-->
-                        <div class="" style="position: relative; ">
-                            <!--                            <img src="/w3images/scene-01.jpg" alt="1" >-->
-
+                        <div class="" style="position: relative; display: none">
                             <img class="bottomMargin" src="/w3images/scene-01.jpg" alt="" style="width:100%">
                             <img class="bottomMargin" src="/w3images/scene-02.jpg" alt="" style="width:100%">
                             <img class="bottomMargin" src="/w3images/scene-01.jpg" alt="" style="width:100%">
                             <img class="bottomMargin" src="/w3images/scene-02.jpg" alt="" style="width:100%">
-
                             <!--<div style="height: 140px"></div>-->
                         </div>
                     </div>
@@ -181,31 +226,36 @@
 
             <!-- Photo Grid -->
             <div id="photoGrid" class="w3-row-padding w3-grayscale2" style="">
-                <div style="height: var(--topBarHeight)"></div>
-                <div class="w3-half">
+                <div style="height: var(--topBarHeight)" ></div>
 
-                    <a href="athul-01/index.htm">   
-                        <img src="w3images/athul-01.jpg" alt="" style="width:100%">
-                    </a>
-
-                    <img  src="w3images/athul-03.jpg"  style="width:100%" 
-                          role="button" tabIndex="0" alt=" " onclick="theatre()">
-
-                    <img src="w3images/athul-05.jpg" alt="aa" style="width:100%"
-                         role="button" tabIndex="0"  onclick="theatre()">
-
-                    <img src="w3images/athul-07.jpg" alt="a" style="width:100%">
-                    <img src="w3images/athul-09.jpg" alt="a" style="width:100%">
-                </div>
-
-                <div class="w3-half">
-                    <img src="w3images/athul-02.jpg" alt="a" style="width:100%">
-                    <img src="w3images/athul-12.jpg" alt="a" style="width:100%">
-                    <img src="w3images/athul-06.jpg" alt="a" style="width:100%">
-                    <img src="w3images/athul-08.jpg" alt="a" style="width:100%">
-
-
-                </div>
+                <div id="id1" class="w3-half" >
+                    <img ng-src="/videos/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x.src)" ng-repeat="x in objects.left" >
+                </div>   
+                <div id="id2" class="w3-half" >
+                    <img ng-src="/videos/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x.src)" ng-repeat="x in objects.right" >
+                </div>  
+                <!--                <div class="w3-half">
+                
+                                    <a href="athul-01/index.htm">   
+                                        <img src="w3images/athul-01.jpg" alt="" style="width:100%">
+                                    </a>
+                
+                                    <img  src="w3images/athul-03.jpg"  style="width:100%" 
+                                          role="button" tabIndex="0" alt=" " onclick="theatre()">
+                
+                                    <img src="w3images/athul-05.jpg" alt="aa" style="width:100%"
+                                         role="button" tabIndex="0"  onclick="theatre()">
+                
+                                    <img src="w3images/athul-07.jpg" alt="a" style="width:100%">
+                                    <img src="w3images/athul-09.jpg" alt="a" style="width:100%">
+                                </div>
+                
+                                <div class="w3-half">
+                                    <img src="w3images/athul-02.jpg" alt="a" style="width:100%">
+                                    <img src="w3images/athul-12.jpg" alt="a" style="width:100%">
+                                    <img src="w3images/athul-06.jpg" alt="a" style="width:100%">
+                                    <img src="w3images/athul-08.jpg" alt="a" style="width:100%">
+                                </div>-->
             </div>
 
             <!-- End Page Content -->

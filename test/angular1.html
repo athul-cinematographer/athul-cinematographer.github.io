@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Title</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <style>
+            .c1{
+                background: lightblue;
+                padding: 2px;
+                margin: 2px;
+                display: inline;
+            }
+        </style>
+
+    </head>
+
+
+    <body>
+
+        <div id="id1" ng-app="app1" ng-controller="ctrl1">
+            <ul>
+                <li ng-repeat="x in names">{{x}}</li>   
+            </ul>
+
+            <div class="c1" ng-click="ale(x)" ng-repeat="x in names" >
+                {{x}}-name
+            </div>
+
+            <img ng-src="/w3images/athul-{{x.src}}.jpg" alt="" style="width:100%"  ng-click="ale(x)" ng-repeat="x in objects" >
+
+
+
+            Name2: <input ng-model="name2">{{name2}}
+
+            <p>
+                <button ng-disabled="mySwitch">Click Me!</button>
+            </p>
+            <p>
+                <input type="checkbox" ng-model="mySwitch"/>Button
+            </p>
+            <p>
+                {{ mySwitch}}
+            </p>
+
+            <p ng-show="true">I am visible.</p>
+            <p ng-show="false">I am not visible.</p>
+            <p ng-show="mySwitch">switchable</p>
+
+            <p ng-show="count > 12">count greater than 12.</p>
+
+            <button ng-click="count = count + 1">Clicked {{count}}</button>
+
+            <button ng-click="f1()">alert</button>
+            <br>
+            <div class="" ng-click="ale(x.name)" ng-repeat="x in objects" >
+                {{x.name}}
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+        <script>
+            var app = angular.module('app1', []);
+            app.controller('ctrl1', ($scope) => {
+                $scope.name2 = "ayu";
+                $scope.names = ["Emil", "Tobias", "Linus"];
+                $scope.hour = 13;
+                $scope.count = 2;
+
+                $scope.objects = [
+                    {'src' :'01'},
+                    {'src': '02'},
+                    {'src': '03'}
+                ];
+
+                $scope.f1 = function () {
+//                    $scope.showMe = !$scope.showMe;
+                    alert($scope.count);
+                    console.log($scope.count);
+                };
+
+                $scope.ale = function (e) {
+//                    $scope.showMe = !$scope.showMe;
+                    alert(e);
+
+                };
+
+            });
+        </script>
+
+    </body>
+</html>
