@@ -1,0 +1,35 @@
+<style>
+    .row {
+        display: grid;
+        grid-template-columns: 1fr 10em 1fr;
+    }
+
+    .row [class*="meta"] {
+        background: blue;
+        color: white;
+    }
+
+    .row .meta-right {
+        text-align: right;
+    }
+
+    .row .logo-bg-top {
+        background: red;
+    }
+</style>
+
+<body>
+
+    <div class="row">
+        <div class="meta-left">
+            <p>Left Contents with align left...</p>
+        </div>
+        <div class="logo-bg-top" style="width:200px">
+            Middle
+            
+        </div>
+        <div class="meta-right">
+            <p>Right Contents with align right...</p>
+        </div>
+    </div> 
+</body>
