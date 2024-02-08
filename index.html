@@ -98,7 +98,7 @@
 
         </style>
         <script>
-            var theatre = function (num) {
+            var theatre2 = function (num) {
                 console.log('theatre num=' + num);
                 document.getElementById("theatre").style.display = 'flex';
                 document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -131,7 +131,7 @@
 
             var app = angular.module('app1', []);
             app.controller('ctrl1', ($scope) => {
-
+ $scope.videoNameNow="videoNameNow";
                 $scope.objects = {'left': [
                         {'src': '0001', 'name': 'adola carpet'},
                         {'src': '0003', 'name': 'exclusive offer'},
@@ -143,8 +143,8 @@
                         {'src': '0002', 'name': 'C3885'},
                         {'src': '0004', 'name': 'ladies bag'},
                         {'src': '0006', 'name': 'ramadan karreem'},
-                        {'src': '0008', 'name': 'trendy video 1'},
-                        {'src': '0010', 'name': '---'}
+                        {'src': '0008', 'name': 'trendy video 1'}
+                       
                     ]
                 };
 
@@ -159,7 +159,10 @@
                     alert(e);
 
                 };
-                $scope.theatre = theatre;
+                $scope.theatre = function (e) {
+                    $scope.videoNameNow=e.name;
+                    theatre2(e.src);
+                };
 
             });
 
@@ -183,7 +186,7 @@
                 <div class="r">
                     <div class="" style="background-color:black; width: var(--videoSidebarWidth)">
                         <div class="videoDetails">
-                            <h3>Lee Jeans</h3>
+                            <h4>{{videoNameNow}}</h4>
                             <p class="" >
                                 DP: Athul KV
                             </p>
@@ -216,8 +219,8 @@
                     <div class="" style="background-color:black; width: 125px;">
                         <!--nav-->
                         <div style="position: fixed;z-index: 1000;  top:70px;right:10px; "> 
-                            <span class="lgt" onclick="videoLoad()">&lt;</span>
-                            <span class="lgt" onclick="videoLoad()">&gt;</span>
+                            <span class="lgt" onclick="videoLoad('0001')">&lt;</span>
+                            <span class="lgt" onclick="videoLoad('0002')">&gt;</span>
                         </div>
                     </div>
                 </div>
@@ -229,10 +232,10 @@
                 <div style="height: var(--topBarHeight)" ></div>
 
                 <div id="id1" class="w3-half" >
-                    <img ng-src="/videos/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x.src)" ng-repeat="x in objects.left" >
+                    <img ng-src="/videos/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x)" ng-repeat="x in objects.left" >
                 </div>   
                 <div id="id2" class="w3-half" >
-                    <img ng-src="/videos/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x.src)" ng-repeat="x in objects.right" >
+                    <img ng-src="/videos/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x)" ng-repeat="x in objects.right" >
                 </div>  
                 <!--                <div class="w3-half">
                 
