@@ -98,15 +98,39 @@
 
         </style>
         <script>
+            function init() {
+                video = document.getElementById('video');
+                video.addEventListener("dblclick", toggleFullscreen);
+            }
+
+
+            // Create fullscreen video button
+            function toggleFullscreen() {
+                if (!document.webkitFullscreenElement) {
+                    if (video.requestFullScreen) {
+                        video.requestFullScreen();
+                    } else if (video.webkitRequestFullScreen) {
+                        video.webkitRequestFullScreen();
+                    } else if (video.mozRequestFullScreen) {
+                        video.mozRequestFullScreen();
+                    }
+                } else {
+                    document.webkitExitFullscreen();
+                }
+            }
+
+
             var theatre2 = function (num) {
                 console.log('theatre num=' + num);
                 document.getElementById("theatre").style.display = 'flex';
                 document.body.scrollTop = document.documentElement.scrollTop = 0;
                 videoLoad(num);
             };
+            var videoIsPlaying = false;
+            var video;
             function videoLoad(num) {
                 console.log('videoLoad');
-                var video = document.getElementById('video');
+                video = document.getElementById('video');
                 //  var videoSrc = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
                 var videoSrc = "/videos/" + num + "/output.m3u8";
                 //
@@ -127,11 +151,15 @@
 //                video.muted = true;
 //                video.play();
 //            });
+                toggleFullscreen();
             }
+
+
 
             var app = angular.module('app1', []);
             app.controller('ctrl1', ($scope) => {
- $scope.videoNameNow="videoNameNow";
+                $scope.videoNameNow = "videoNameNow";
+                $scope.src = "0001";
                 $scope.objects = {'left': [
                         {'src': '0001', 'name': 'adola carpet'},
                         {'src': '0003', 'name': 'exclusive offer'},
@@ -144,7 +172,7 @@
                         {'src': '0004', 'name': 'ladies bag'},
                         {'src': '0006', 'name': 'ramadan karreem'},
                         {'src': '0008', 'name': 'trendy video 1'}
-                       
+
                     ]
                 };
 
@@ -160,8 +188,19 @@
 
                 };
                 $scope.theatre = function (e) {
-                    $scope.videoNameNow=e.name;
+                    $scope.videoNameNow = e.name;
+                    $scope.src = e.src;
                     theatre2(e.src);
+                };
+                $scope.togglePlay = function () {
+                    //console.log('video clicked');
+//                if (videoIsPlaying) {
+//                    video.pause();
+//                    videoIsPlaying = false;
+//                } else {
+//                    video.play();
+//                    videoIsPlaying = true;
+//                }
                 };
 
             });
@@ -169,7 +208,7 @@
 
         </script>
     </head>
-    <body onload="videoLoad('0001')" ng-app="app1" ng-controller="ctrl1">
+    <body onload="init()" ng-app="app1" ng-controller="ctrl1">
 
         <!-- !PAGE CONTENT! -->
         <div class="w3-content" style="max-width:1500px">
@@ -201,10 +240,12 @@
 
                     <div class="" style="background-color:#bbb; width:-webkit-fill-available;">
                         <!--video-->
-                        <video id="video"  poster="/poster.jpg"  autoplay="autoplay" 
-                               style="width: 100%;"
-                               controls >
+                        <video id="video"  poster="videos/{{src}}/{{src}}.jpg"  style="width: 100%;"
+                               ng-click="togglePlay()" autoplay="autoplay"
+                               >
                         </video>
+                        <!--    controls        autoplay="autoplay"--> 
+
 
                         <!--scenes-->
                         <div class="" style="position: relative; display: none">
@@ -228,14 +269,14 @@
 
 
             <!-- Photo Grid -->
-            <div id="photoGrid" class="w3-row-padding w3-grayscale2" style="">
+            <div id="photoGrid" class="w3-row-padding w3-grayscale2" style="" ng-if="true">
                 <div style="height: var(--topBarHeight)" ></div>
 
                 <div id="id1" class="w3-half" >
-                    <img ng-src="/videos/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x)" ng-repeat="x in objects.left" >
+                    <img ng-src="/videos/{{x.src}}/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x)" ng-repeat="x in objects.left" >
                 </div>   
                 <div id="id2" class="w3-half" >
-                    <img ng-src="/videos/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x)" ng-repeat="x in objects.right" >
+                    <img ng-src="/videos/{{x.src}}/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x)" ng-repeat="x in objects.right" >
                 </div>  
                 <!--                <div class="w3-half">
                 
