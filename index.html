@@ -118,7 +118,7 @@
                     document.webkitExitFullscreen();
                 }
             }
-
+            var quality = "720";
 
             var theatre2 = function (num) {
                 console.log('theatre num=' + num);
@@ -132,7 +132,7 @@
                 console.log('videoLoad');
                 video = document.getElementById('video');
                 //  var videoSrc = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
-                var videoSrc = "/videos/" + num + "/output.m3u8";
+                var videoSrc = "/videos/" + quality + "/" + num + "/output.m3u8";
                 //
                 // First check for native browser HLS support
                 //
@@ -160,6 +160,7 @@
             app.controller('ctrl1', ($scope) => {
                 $scope.videoNameNow = "videoNameNow";
                 $scope.src = "0001";
+                $scope.quality = quality;
                 $scope.objects = {'left': [
                         {'src': '0001', 'name': 'adola carpet'},
                         {'src': '0003', 'name': 'exclusive offer'},
@@ -240,7 +241,7 @@
 
                     <div class="" style="background-color:#bbb; width:-webkit-fill-available;">
                         <!--video-->
-                        <video id="video"  poster="videos/{{src}}/{{src}}.jpg"  style="width: 100%;"
+                        <video id="video"  poster="videos/thumbnails/{{src}}.jpg"  style="width: 100%;"
                                ng-click="togglePlay()" autoplay="autoplay"
                                >
                         </video>
@@ -273,10 +274,10 @@
                 <div style="height: var(--topBarHeight)" ></div>
 
                 <div id="id1" class="w3-half" >
-                    <img ng-src="/videos/{{x.src}}/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x)" ng-repeat="x in objects.left" >
+                    <img ng-src="/videos/thumbnails/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x)" ng-repeat="x in objects.left" >
                 </div>   
                 <div id="id2" class="w3-half" >
-                    <img ng-src="/videos/{{x.src}}/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x)" ng-repeat="x in objects.right" >
+                    <img ng-src="/videos/thumbnails/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x)" ng-repeat="x in objects.right" >
                 </div>  
                 <!--                <div class="w3-half">
                 
