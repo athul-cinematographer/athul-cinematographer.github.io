@@ -1,322 +1,267 @@
 <!DOCTYPE html>
-<html>
-    <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Athul 2</title>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>ATHUL K VENU</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./d_files/w3.css">
-        <link rel="stylesheet" href="./d_files/css">
-        <link rel="stylesheet" href="./d_files/font-awesome.min.css">
-        <script src="/js/hls.js"></script>
-        <script src="/js/angular.min.js"></script>
+        <link rel="stylesheet" href="./dark_portfolio_files/w3.css">
+        <link rel="stylesheet" href="./dark_portfolio_files/css">
+        <link rel="stylesheet" href="./dark_portfolio_files/font-awesome.min.css">
         <style>
-            :root {
-                --blue: #1e90ff;
-                --white: #ffffff;
-                --topBarHeight:60px;
-                --videoSidebarWidth:160px;
-                --videoTop:100px;
-            }
-
-            #photoGrid{
-                position: absolute;
-                z-index: 1000;
-                /* margin-bottom: 3px; */
-                /* margin-top: 62px; */
-                background: #272727;
-                padding: 10px;
-            }
-            body,h1 {
-                font-family: "Raleway", Arial, sans-serif
-            }
-            h1 {
-                letter-spacing: 6px
+            body, h1,h2,h3,h4,h5,h6 {
+                font-family: "Montserrat", sans-serif
             }
             .w3-row-padding img {
                 margin-bottom: 12px
             }
-
-            .siteTitle {
-                display: block;
-                float: right;
-                padding: 35px 0;
-                max-width: 35%;
-                text-align: right;
+            /* Set the width of the sidebar to 120px */
+            .w3-sidebar {
+                width: 120px;
+                background: #222;
             }
-
-            .lgt{
-                padding: 5px 10px 5px 10px;
-                font-size: 20pt;
-                background: #303030;
-                color: white;
-                z-index: 25;
+            /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+            #main {
+                margin-left: 120px
             }
-
-            .theatre{
-                background: black;
-                z-index: 20;
-                margin-bottom:3px;
-                margin-top:62px;
-                height:auto ;
-                display:none
+            /* Remove margins from "page content" on small screens */
+            @media only screen and (max-width: 600px) {
+                #main {
+                    margin-left: 0
+                }
             }
-
-            .videoDetails {
-                margin: 25px 2px 2px 19px;
-                font-size: 15px;
-                font-family: "Helvetica Neue",Helvetica,sans-serif;
-                color: #8a8a8a;
-            }
-            .videoSidebar{
-                position: fixed;
-                z-index: 100;
-                width: var(--videoSidebarWidth);
-                height: 100%;
-                background: #161010;
-                margin: 0px;
-                left: 0px;
-            }
-
-            .r{
-                display: flex;
-            }
-
-            .bottomMargin{
-                padding-bottom: 5px;
-            }
-            #topBar{
-                position: fixed;
-                z-index: 3000;
-                width: 100%;
-                /*height:60px;*/
-                background: white;
-                top: 0px;
-                font-size: 15pt;
-                text-align: center;
-
-            }
-
         </style>
-        <script>
-            function init() {
-                video = document.getElementById('video');
-                video.addEventListener("dblclick", toggleFullscreen);
-            }
+        <script >
+            function download(fileName) {
+//                alert("download " + fileName);
 
+                //Set the File URL.
+                var url = "downloads/" + fileName;
 
-            // Create fullscreen video button
-            function toggleFullscreen() {
-                if (!document.webkitFullscreenElement) {
-                    if (video.requestFullScreen) {
-                        video.requestFullScreen();
-                    } else if (video.webkitRequestFullScreen) {
-                        video.webkitRequestFullScreen();
-                    } else if (video.mozRequestFullScreen) {
-                        video.mozRequestFullScreen();
+                //Create XMLHTTP Request.
+                var req = new XMLHttpRequest();
+                req.open("GET", url, true);
+                req.responseType = "blob";
+                req.onload = function () {
+                    //Convert the Byte Data to BLOB object.
+                    var blob = new Blob([req.response], {type: "application/octetstream"});
+
+                    //Check the Browser type and download the File.
+                    var isIE = false || !!document.documentMode;
+                    if (isIE) {
+                        window.navigator.msSaveBlob(blob, fileName);
+                    } else {
+                        var url = window.URL || window.webkitURL;
+                        link = url.createObjectURL(blob);
+                        var a = document.createElement("a");
+                        a.setAttribute("download", fileName);
+                        a.setAttribute("href", link);
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
                     }
-                } else {
-                    document.webkitExitFullscreen();
-                }
+                };
+                req.send();
             }
-            var quality = "720";
-
-            var theatre2 = function (num) {
-                console.log('theatre num=' + num);
-                document.getElementById("theatre").style.display = 'flex';
-                document.body.scrollTop = document.documentElement.scrollTop = 0;
-                videoLoad(num);
-            };
-            var videoIsPlaying = false;
-            var video;
-            function videoLoad(num) {
-                console.log('videoLoad');
-                video = document.getElementById('video');
-                //  var videoSrc = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
-                var videoSrc = "/videos/" + quality + "/" + num + "/output.m3u8";
-                //
-                // First check for native browser HLS support
-                //
-                if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                    video.src = videoSrc;
-                    //
-                    // If no native HLS support, check if HLS.js is supported
-                    //
-                } else if (Hls.isSupported()) {
-                    var hls = new Hls();
-                    hls.loadSource(videoSrc);
-                    hls.attachMedia(video);
-                }
-
-//            hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-//                video.muted = true;
-//                video.play();
-//            });
-                toggleFullscreen();
-            }
-
-
-
-            var app = angular.module('app1', []);
-            app.controller('ctrl1', ($scope) => {
-                $scope.videoNameNow = "videoNameNow";
-                $scope.src = "0001";
-                $scope.quality = quality;
-                $scope.objects = {'left': [
-                        {'src': '0001', 'name': 'adola carpet'},
-                        {'src': '0003', 'name': 'exclusive offer'},
-                        {'src': '0005', 'name': 'mona video with out text'},
-                        {'src': '0007', 'name': 'ramadn'},
-                        {'src': '0009', 'name': 'WOW DEALS STORIE'}
-                    ],
-                    'right': [
-                        {'src': '0002', 'name': 'C3885'},
-                        {'src': '0004', 'name': 'ladies bag'},
-                        {'src': '0006', 'name': 'ramadan karreem'},
-                        {'src': '0008', 'name': 'trendy video 1'}
-
-                    ]
-                };
-
-                $scope.f1 = function () {
-//                    $scope.showMe = !$scope.showMe;
-                    alert($scope.count);
-                    console.log($scope.count);
-                };
-
-                $scope.ale = function (e) {
-//                    $scope.showMe = !$scope.showMe;
-                    alert(e);
-
-                };
-                $scope.theatre = function (e) {
-                    $scope.videoNameNow = e.name;
-                    $scope.src = e.src;
-                    theatre2(e.src);
-                };
-                $scope.togglePlay = function () {
-                    //console.log('video clicked');
-//                if (videoIsPlaying) {
-//                    video.pause();
-//                    videoIsPlaying = false;
-//                } else {
-//                    video.play();
-//                    videoIsPlaying = true;
-//                }
-                };
-
-            });
-
-
+            ;
         </script>
     </head>
-    <body onload="init()" ng-app="app1" ng-controller="ctrl1">
+    <body class="w3-black">
 
-        <!-- !PAGE CONTENT! -->
-        <div class="w3-content" style="max-width:1500px">
-            <!-- Header -->
-            <header id="topBar"   style="">
-                <span  style="float: left; "> &nbsp; CINEMATOGRAPHER</span>
-                <span   style="float: right">  ATHUL KV &nbsp;</span>
-            </header>
+        <!-- Icon Bar (Sidebar - hidden on small screens) -->
+        <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+            <!-- Avatar image in top left corner -->
+            <img src="./dark_portfolio_files/avatar_ayush.jpg" style="width:100%" alt="">
+            <a href="#" class="w3-bar-item w3-button w3-padding-large w3-black">
+                <i class="fa fa-home w3-xxlarge"></i>
+                <p>HOME</p>
+            </a>
+            <a href="#about" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+                <i class="fa fa-user w3-xxlarge"></i>
+                <p>ABOUT</p>
+            </a>
+            <a href="#projects" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+                <i class="fa fa-eye w3-xxlarge"></i>
+                <p>PROJECTS</p>
+            </a>
+            <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+                <i class="fa fa-envelope w3-xxlarge"></i>
+                <p>CONTACT</p>
+            </a>
+        </nav>
 
-            <!-- theatre -->
-
-            <div  id="theatre" class="theatre" style="display: none">
-                <div style="height: 140px"></div>
-                <div class="r">
-                    <div class="" style="background-color:black; width: var(--videoSidebarWidth)">
-                        <div class="videoDetails">
-                            <h4>{{videoNameNow}}</h4>
-                            <p class="" >
-                                DP: Athul KV
-                            </p>
-                            <p class="" >
-                                Cam:----
-                            </p>
-                            <p class="" >
-                                Dir: ----
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="" style="background-color:#bbb; width:-webkit-fill-available;">
-                        <!--video-->
-                        <video id="video"  poster="videos/thumbnails/{{src}}.jpg"  style="width: 100%;"
-                               ng-click="togglePlay()" autoplay="autoplay"
-                               >
-                        </video>
-                        <!--    controls        autoplay="autoplay"--> 
-
-
-                        <!--scenes-->
-                        <div class="" style="position: relative; display: none">
-                            <img class="bottomMargin" src="/w3images/scene-01.jpg" alt="" style="width:100%">
-                            <img class="bottomMargin" src="/w3images/scene-02.jpg" alt="" style="width:100%">
-                            <img class="bottomMargin" src="/w3images/scene-01.jpg" alt="" style="width:100%">
-                            <img class="bottomMargin" src="/w3images/scene-02.jpg" alt="" style="width:100%">
-                            <!--<div style="height: 140px"></div>-->
-                        </div>
-                    </div>
-
-                    <div class="" style="background-color:black; width: 125px;">
-                        <!--nav-->
-                        <div style="position: fixed;z-index: 1000;  top:70px;right:10px; "> 
-                            <span class="lgt" onclick="videoLoad('0001')">&lt;</span>
-                            <span class="lgt" onclick="videoLoad('0002')">&gt;</span>
-                        </div>
-                    </div>
-                </div>
+        <!-- Navbar on small screens (Hidden on medium and large screens) -->
+        <div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+            <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
+                <a href="#" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
+                <a href="#about" class="w3-bar-item w3-button" style="width:25% !important">ABOUT</a>
+                <a href="#projects" class="w3-bar-item w3-button" style="width:25% !important">PROJECTS</a>
+                <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">CONTACT</a>
             </div>
-
-
-            <!-- Photo Grid -->
-            <div id="photoGrid" class="w3-row-padding w3-grayscale2" style="" ng-if="true">
-                <div style="height: var(--topBarHeight)" ></div>
-
-                <div id="id1" class="w3-half" >
-                    <img ng-src="/videos/thumbnails/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x)" ng-repeat="x in objects.left" >
-                </div>   
-                <div id="id2" class="w3-half" >
-                    <img ng-src="/videos/thumbnails/{{x.src}}.jpg" alt="" style="width:100%"  ng-click="theatre(x)" ng-repeat="x in objects.right" >
-                </div>  
-                <!--                <div class="w3-half">
-                
-                                    <a href="athul-01/index.htm">   
-                                        <img src="w3images/athul-01.jpg" alt="" style="width:100%">
-                                    </a>
-                
-                                    <img  src="w3images/athul-03.jpg"  style="width:100%" 
-                                          role="button" tabIndex="0" alt=" " onclick="theatre()">
-                
-                                    <img src="w3images/athul-05.jpg" alt="aa" style="width:100%"
-                                         role="button" tabIndex="0"  onclick="theatre()">
-                
-                                    <img src="w3images/athul-07.jpg" alt="a" style="width:100%">
-                                    <img src="w3images/athul-09.jpg" alt="a" style="width:100%">
-                                </div>
-                
-                                <div class="w3-half">
-                                    <img src="w3images/athul-02.jpg" alt="a" style="width:100%">
-                                    <img src="w3images/athul-12.jpg" alt="a" style="width:100%">
-                                    <img src="w3images/athul-06.jpg" alt="a" style="width:100%">
-                                    <img src="w3images/athul-08.jpg" alt="a" style="width:100%">
-                                </div>-->
-            </div>
-
-            <!-- End Page Content -->
         </div>
 
-        <!--Footer--> 
-        <!--                <footer class="w3-container w3-padding w3-light-grey w3-center w3-large"> 
-                            <i class="fa fa-facebook-official w3-hover-opacity"></i>
-                            <i class="fa fa-instagram w3-hover-opacity"></i>
-                            <i class="fa fa-snapchat w3-hover-opacity"></i>
-                            <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-                            <i class="fa fa-twitter w3-hover-opacity"></i>
-                            <i class="fa fa-linkedin w3-hover-opacity"></i>
-                            <p>Created by <a href="" target="_blank" class="w3-hover-text-green">emailidofayush@gmail.com</a></p>
-                        </footer>-->
+        <!-- Page Content -->
+        <div class="w3-padding-large" id="main">
+            <!-- Header/Home -->
+            <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
+                <h1 class="w3-jumbo"><span class="w3-hide-small">
+                        I'm </span> ATHUL K VENU
+                </h1>
+                <p>
+                    CINEMATOGRAPHER |
+                    VIDEO EDITOR |
+                    PHOTOGRAPHER |
+                    MOTION-GRAPHICS ARTIST  |
+                    SOCIAL  MEDIA HANDLER |
+                    GRAPHICS DESIGNING
+                </p>
+                <img src="./dark_portfolio_files/profile_pic_1_black.jpg" alt="boy" class="w3-image" width="992" height="1108">
+            </header>
+
+            <!-- About Section -->
+            <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
+                <h2 class="w3-text-light-grey">My Name</h2>
+                <hr style="width:200px" class="w3-opacity">
+                <p>
+                    Skilled Videographer with years of
+                    experience. Sets up and operates
+                    sight equipment, edits final videos
+                    and adds effects. Well-organized with
+                    disciplined approach and good time
+                    management skills. Enthusiastic
+                    about developing and realizing
+                    cohesive vision with each project.
+
+                </p>
+                <h3 class="w3-padding-16 w3-text-light-grey">My Skills</h3>
+
+                <p class="w3-wide">Adobe Premier Pro.</p>
+                <div class="w3-white">
+                    <div class="w3-dark-grey" style="height:28px;width:90%"></div>
+                </div>
+
+                <p class="w3-wide">Adobe After Effects
+                </p>
+                <div class="w3-white">
+                    <div class="w3-dark-grey" style="height:28px;width:90%"></div>
+                </div>
+
+                <p class="w3-wide">Adobe Photoshop</p>
+                <div class="w3-white">
+                    <div class="w3-dark-grey" style="height:28px;width:90%"></div>
+                </div>
+
+                <p class="w3-wide">Adobe lllustrator</p>
+                <div class="w3-white">
+                    <div class="w3-dark-grey" style="height:28px;width:90%"></div>
+                </div>
+
+                <p class="w3-wide">Adobe Lightroom</p>
+                <div class="w3-white">
+                    <div class="w3-dark-grey" style="height:28px;width:90%"></div>
+                </div>
+
+                <p class="w3-wide">Social Media</p>
+                <div class="w3-white">
+                    <div class="w3-dark-grey" style="height:28px;width:80%"></div>
+                </div>
 
 
-    </body>
-</html>
+                <br>
+
+                <div class="w3-row w3-center w3-padding-16 w3-section w3-light-grey">
+                    <div class="w3-quarter w3-section">
+                        <span class="w3-xlarge">11+</span><br>
+                        Partners
+                    </div>
+                    <div class="w3-quarter w3-section">
+                        <span class="w3-xlarge">55+</span><br>
+                        Projects Done
+                    </div>
+                    <div class="w3-quarter w3-section">
+                        <span class="w3-xlarge">89+</span><br>
+                        Happy Clients
+                    </div>
+                    <div class="w3-quarter w3-section">
+                        <span class="w3-xlarge">150+</span><br>
+                        Meetings
+                    </div>
+                </div>
+
+
+                <button class="w3-button w3-light-grey w3-padding-large w3-section" onclick="download('cinematographer_athul_cv.pdf')">
+                    <i class="fa fa-download"></i> Download Resume
+                </button>
+
+
+
+                <!-- Testimonials -->
+                <h3 class="w3-padding-24 w3-text-light-grey">My Reputation</h3>  
+                <img src="./dark_portfolio_files/avatar_mamooty.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:80px">
+                <p><span class="w3-large w3-margin-right">Kodimon Potti,</span>Head of Pinjamon Illam</p>
+                <p>He saved us from a web disaster.</p><br>
+
+                <img src="./dark_portfolio_files/avatar_vijay.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:80px">
+                <p><span class="w3-large w3-margin-right">Veeru Raghu,</span>   RAW agent.</p>
+                <p>No one is better than  him.</p>
+                <!-- End About Section -->
+            </div>
+
+
+
+            <!-- Contact Section -->
+            <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+                <h2 class="w3-text-light-grey">Contact Me</h2>
+                <hr style="width:200px" class="w3-opacity">
+
+                <div class="w3-section">
+                    <p><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> 
+                        AL NAHDA DUBAI
+                    </p>
+                    <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> 
+                        0568421725
+                    </p>
+                    <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> 
+                        ATHULKVENU04@GMAIL.COM</p>
+                </div><br>
+
+                <!-- End Contact Section -->
+            </div>
+
+
+            <!-- projects Section -->
+            <div class="w3-padding-64 w3-content w3-text-grey" id="projects">
+                <h2 class="w3-text-light-grey">My Projects</h2>
+                <hr style="width:200px" class="w3-opacity">
+
+                <div class="w3-section">
+                    <p><i class="fa fa-archive fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> 
+                        p1
+                    </p>
+                    <p><i class="fa fa-archive fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> 
+                        p2
+                    </p>
+                    <p><i class="fa fa-archive fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> 
+                        p3
+                    </p>
+                </div><br>
+
+                <!-- End projects Section -->
+            </div>
+
+
+
+            <!-- Footer -->
+            <footer class="w3-content w3-padding w3-text-grey w3-xlarge">
+                <i class="fa fa-facebook-official w3-hover-opacity"></i>
+                <i class="fa fa-instagram w3-hover-opacity"></i>
+                <i class="fa fa-snapchat w3-hover-opacity"></i>
+                <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+                <i class="fa fa-twitter w3-hover-opacity"></i>
+                <i class="fa fa-linkedin w3-hover-opacity"></i>
+                <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+                <!-- End footer -->
+            </footer>
+
+            <!-- END PAGE CONTENT -->
+        </div>
+
+    </body></html>
