@@ -6,6 +6,8 @@
         <link rel="stylesheet" href="./dark_portfolio_files/w3.css">
         <link rel="stylesheet" href="./dark_portfolio_files/css">
         <link rel="stylesheet" href="./dark_portfolio_files/font-awesome.min.css">
+        <script src="//code.angularjs.org/snapshot/angular.min.js"></script>
+        <script src="//code.angularjs.org/snapshot/angular-sanitize.js"></script>
         <style>
             body, h1,h2,h3,h4,h5,h6 {
                 font-family: "Montserrat", sans-serif
@@ -30,6 +32,7 @@
             }
         </style>
         <script >
+            var projects;
             function download(fileName) {
 //                alert("download " + fileName);
 
@@ -61,15 +64,56 @@
                 };
                 req.send();
             }
-            ;
+            function init() {
+
+            }
+
+            var app = angular.module('app1', ['ngSanitize']);
+            app.controller('ctrl1', ($scope) => {
+//                $scope.projects = projects;
+                const request = new XMLHttpRequest();
+                request.open("GET", "projects.json", false); // `false` makes the request synchronous
+                request.send(null);
+
+                if (request.status === 200) {
+                    console.log(request.responseText);
+                    $scope.projects = JSON.parse(request.responseText);
+                }
+
+                $scope.call_href = "tel:+971501272181";
+                $scope.locate_href = "https://www.google.com/maps/place/THE+FILIPINO+DENTAL/@25.2681686,55.3181125,102m/data=!3m1!1e3!4m6!3m5!1s0x3e5f5d768afb39ff:0x963ba1dbba57f870!8m2!3d25.2681327!4d55.3180453!16s%2Fg%2F11vc9hb88k!5m1!1e4?entry=ttu";
+                $scope.whatsapp_href = "https://wa.me/971501272181?text=Hello, THE FILIPINO DENTAL Clinic. I%20would%20like%20to%20book%20an%20appointment.";
+
+                $scope.phoneBlock = "<a class='phone' href='tel:+971501272181'> \n\
+                                        <span class='material-icons' >call</span>\n\
+                                        Call Now\n\
+                                </a>";
+
+                $scope.locateBlock = "<a  class='phone' href='https://www.google.com/maps/place/THE+FILIPINO+DENTAL/@25.2681686,55.3181125,102m/data=!3m1!1e3!4m6!3m5!1s0x3e5f5d768afb39ff:0x963ba1dbba57f870!8m2!3d25.2681327!4d55.3180453!16s%2Fg%2F11vc9hb88k!5m1!1e4?entry=ttu' >\n\
+                                            <span class='material-icons' >room</span>\n\
+                                            Locate  \n\
+                                   </a> ";
+
+                $scope.whatsappBlock = '<a href="https://wa.me/971501272181?text=Hello, THE FILIPINO DENTAL Clinic. I%20would%20like%20to%20book%20an%20appointment."  class="phone"> \n\
+                                        <img src="./images/WhatsApp.svg" alt="whatsapp" width="30px" /> \n\
+                                            WhatsApp \n\
+                                    </a> ';
+            });
+
+
+
+
+
         </script>
     </head>
-    <body class="w3-black">
+
+    <body onload="init()" ng-app="app1" ng-controller="ctrl1" class="w3-black">
+
 
         <!-- Icon Bar (Sidebar - hidden on small screens) -->
         <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
             <!-- Avatar image in top left corner -->
-            <img src="./dark_portfolio_files/avatar_ayush.jpg" style="width:100%" alt="">
+            <img src="./dark_portfolio_files/user_avatar.jpg" style="width:100%" alt="">
             <a href="#" class="w3-bar-item w3-button w3-padding-large w3-black">
                 <i class="fa fa-home w3-xxlarge"></i>
                 <p>HOME</p>
@@ -232,17 +276,18 @@
                 <h2 class="w3-text-light-grey">My Projects</h2>
                 <hr style="width:200px" class="w3-opacity">
 
-                <div class="w3-section">
-                    <p><i class="fa fa-archive fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> 
-                        p1
+
+                <div ng-repeat="project in projects" class="w3-section">
+                    <p>
+                        <a href="{{project.url}}">
+                        <i class="fa fa-archive fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> 
+                        {{project.url}}
+                        </a>
                     </p>
-                    <p><i class="fa fa-archive fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> 
-                        p2
-                    </p>
-                    <p><i class="fa fa-archive fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> 
-                        p3
-                    </p>
-                </div><br>
+
+                </div>
+
+                <br>
 
                 <!-- End projects Section -->
             </div>
