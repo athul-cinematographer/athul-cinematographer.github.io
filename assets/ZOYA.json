@@ -1,0 +1,26 @@
+{
+    "name": "ZOYA",
+    "bg": "zoya.png",
+    "videos": [
+        {
+            "url": "https://www.instagram.com/reel/DXt9vS-j3gQ/?igsh=eHRlYTR6dTZzcmp6",
+            "thumbnail": "ZOYA_INSTA_01"
+        },
+        {
+            "url": "https://www.instagram.com/reel/DXb8F5tCo7U/?igsh=ZW4yOGYwd2p0c3Bu",
+            "thumbnail": "ZOYA_INSTA_02"
+        },
+        {
+            "url": "https://www.instagram.com/reel/DXPj2tLgAiY/?igsh=MWdranJ2cG9ndnZzOA==",
+            "thumbnail": "ZOYA_INSTA_03"
+        },
+        {
+            "url": "https://www.instagram.com/reel/DXHDwbeCkoH/?igsh=MXNmdTlvM2psdXN0Yg==",
+            "thumbnail": "ZOYA_INSTA_04"
+        },
+        {
+            "url": "https://www.instagram.com/reel/DWtzm_6D_Mh/?igsh=aXdnZGI5cXdkNHBy",
+            "thumbnail": "ZOYA_INSTA_05"
+        }
+    ]
+}

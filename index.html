@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" data-beasties-container>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>ATHUL K VENU</title>
+
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+<style>html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}html,body{font-family:Verdana,sans-serif;font-size:15px;line-height:1.5}html{overflow-x:hidden}:disabled *{pointer-events:none}.w3-black{color:#fff!important;background-color:#000!important}</style><link rel="stylesheet" href="styles-MVAIWTVX.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-MVAIWTVX.css"></noscript></head>
+
+<body class="w3-black">
+  <app></app>
+
+  <script>
+    var projects;
+    function download(fileName) {
+      //                alert("download " + fileName);
+
+      //Set the File URL.
+      var url = "assets/downloads/" + fileName;
+
+      //Create XMLHTTP Request.
+      var req = new XMLHttpRequest();
+      req.open("GET", url, true);
+      req.responseType = "blob";
+      req.onload = function () {
+        //Convert the Byte Data to BLOB object.
+        var blob = new Blob([req.response], { type: "application/octetstream" });
+
+        //Check the Browser type and download the File.
+        var isIE = false || !!document.documentMode;
+        if (isIE) {
+          window.navigator.msSaveBlob(blob, fileName);
+        } else {
+          var url = window.URL || window.webkitURL;
+          link = url.createObjectURL(blob);
+          var a = document.createElement("a");
+          a.setAttribute("download", fileName);
+          a.setAttribute("href", link);
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+      };
+      req.send();
+    }
+    function init() {
+
+    }
+  </script>
+<script src="main-ZDSP3VXI.js" type="module"></script></body>
+
+</html>
