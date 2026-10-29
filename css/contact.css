@@ -1,0 +1,4 @@
+.icon-white {
+    filter: invert(100%) brightness(55%);
+    width: 30pt;
+}

@@ -1,0 +1,32 @@
+{
+    "elements": {
+        "click-counter": {},
+        "task-list": {},
+        "first-photo": {},
+        "my-name": {
+            "attributes": {
+                "id": {}
+            }
+        },
+        "about": {},
+        "my-projects": {},
+        "my-tabs": {},
+        "navigation": {},
+        "welcome-header": {
+            "attributes": {
+                "user-name": {}
+            }
+        },
+        "contact": {},
+        "zoya-video-hub": {},
+        "my-pane": {
+            "attributes": {
+                "ng-repeat": {},
+                "id": {},
+                "title": {}
+            }
+        },
+        "my-skills": {}
+    },
+    "attributes": {}
+}

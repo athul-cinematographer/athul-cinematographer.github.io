@@ -1,0 +1,18 @@
+.box-container {
+    display: flex;       /* Activates flexbox */
+    flex-wrap: wrap;     /* Allows items to move to the next line when space runs out */
+    gap: 16px;           /* Adds a gap between the boxes (works both horizontally and vertically) */
+}
+
+.box {
+    flex: 1 1 300px;     /* Grow: 1, Shrink: 1, Ideal Width: 300px */
+    background-color: #272727e0;
+    padding: 10px;
+    color:grey;
+}
+
+.notAhref{
+    text-decoration: none;
+    color: inherit;
+
+}

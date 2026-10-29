@@ -1,0 +1,63 @@
+.nav-row-padding img {
+    margin-bottom: 12px
+}
+/*Set the width of the sidebar to 120px*/
+.nav-sidebar {
+    width: 120px;
+    background: #222;
+    height: 100%;
+}
+
+/* apply on smaller than 600px */
+@media screen and (max-width: 600px) {
+    .hide-on-mobile {
+        display: none;
+    }
+    .flexible-width {
+        /*margin: 10px;*/
+        margin-left: 20px;
+    }
+
+}
+
+@media screen and (min-width: 601px) {
+    .hide-on-larger {
+        display: none;
+    }
+    .flexible-width {
+        /*margin: 10px;*/
+        margin-left: 140px;
+        position: absolute;
+        top:0px;
+    }
+
+}
+
+
+
+.container_grid_columns {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+
+.container2 {
+    /*display: flex;*/
+}
+
+.fixed-width {
+    width: 100px;
+    position: fixed ;
+    border: 1px solid green;
+    height: 100%;
+
+}
+
+
+.body2{
+    display: block;
+    padding: 20px;
+    margin-left: 120px;
+}
+.trans{
+    transition: margin-left .4s;
+}

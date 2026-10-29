@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>new</title>
+        <link rel="icon" sizes="32x32" href="/.folder.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/css/w3.css">
+        <link rel="stylesheet" href="/css/box.css">
+        <link rel="stylesheet" href="/css/tabbed.css">
+        <link  rel="stylesheet" href="/css/main.css"/>
+        <link  rel="stylesheet" href="/css/video_old.css"/>
+
+        <script src="/js/angular.min.js"></script>
+        <script src="/js/angular-sanitize.js"></script>
+        <script src="/app_projects.js"></script>
+
+    </head>
+
+    <body>
+        <div ng-controller="MainController as main" class="dashboard-wrapper">
+
+            <!-- Custom Parent Tab Component -->
+            <my-tabs>
+                <!-- Outer Loop: Automatically creates one tab per distinct Company -->
+                <my-pane ng-repeat="tab in main.groupedTabs" title="{{tab.title}}">
+
+                    <!-- Video Wall Grid inside the current company pane -->
+                    <div class="video-grid">
+                        <div class="video-card" ng-repeat="video in tab.videoList">
+                            <a ng-href="{{video.url}}" target="_blank" class="card-link">
+
+                                <div class="thumbnail-container">
+                                    <!-- Render YouTube thumbnails using the unique hash codes -->
+                                    <img ng-src="/thumbnails/{{video.sm}}/{{video.thumbnail}}.jpg" 
+                                         alt="Video player snapshot preview"
+                                         ng-if2="video.sm === 'youtube'">
+
+                                    <!-- Fallback layout interface placeholder block for Instagram Reels -->
+                                    <div class="insta-placeholder" ng-if="video.sm === 'instagram'">
+                                        <span class="icon">🎬</span>
+                                        <p>Instagram Reel</p>
+                                    </div>
+
+                                    <span class="platform-badge" ng-class="video.sm">{{video.sm}}</span>
+                                </div>
+
+                              
+
+                            </a>
+                        </div>
+                    </div>
+
+                </my-pane>
+            </my-tabs>
+        </div>
+        <script src="/my-tabs.component.js"></script>
+    </body>
