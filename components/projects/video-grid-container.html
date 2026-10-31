@@ -6,8 +6,7 @@
                 <!-- YouTube Static Image Engine -->
 
                 <img ng-src="/thumbnails/{{video.sm}}/{{video.thumbnail}}.jpg" 
-                     alt="Video dynamic placeholder" 
-                     ng-if2="video.sm === 'youtube'">
+                     alt="Video dynamic placeholder"  ng-if2="video.sm === 'youtube'">
 
                 <!-- Instagram Layout Symbol Placeholder Frame -->
                 <div class="insta-placeholder" ng-if="video.sm === 'instagram'">
@@ -15,7 +14,8 @@
                     <p>Instagram Reel</p>
                 </div>
 
-                <span class="platform-badge" ng-class="video.sm">{{video.sm}}</span>
+                <!--<span class="platform-badge" ng-class="video.sm">{{video.sm}}</span>-->
+                   <span class="platform-badge" ng-class="video.sm">{{video.order}}</span>
             </div>
 
 
