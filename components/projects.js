@@ -8,8 +8,8 @@ angular.module('myApp')
 
             template: `
         <div class="dashboard-wrapper">
-          <header class="dashboard-header" ng-if="$ctrl.brandName">
-             <h2 id="projects" class="ay-padding-top-64">{{$ctrl.brandName}}</h2>
+          <header class="dashboard-header" >
+             <h2 id="projects" class="ay-padding-top-64">My Projects</h2>
           </header>
 
           <!-- Parent Custom Tabs Component -->
@@ -27,36 +27,47 @@ angular.module('myApp')
             controller: ['$http', function ZoyaVideoHubController($http) {
                     var ctrl = this;
                     ctrl.groupedTabs = [];
-
                     ctrl.$onInit = function () {
-                        // Load the json database mapping file configuration layout
-                        $http.get('/json/ALL.json').then(function (response) {
-                            var rawData = response.data;
-                            ctrl.brandName = rawData.name;
-
-                            var tempGroups = {};
-
-                            // Group entries strictly by company field identifier values
-                            angular.forEach(rawData.videos, function (video) {
-                                var companyKey = video.company || rawData.name || 'General';
-
-                                if (!tempGroups[companyKey]) {
-                                    tempGroups[companyKey] = {
-                                        title: companyKey,
-                                        videoList: []
-                                    };
-                                }
-                                tempGroups[companyKey].videoList.push(video);
-                            });
-
-                            // Flatten out mapping payload array list
-                            angular.forEach(tempGroups, function (group) {
-                                ctrl.groupedTabs.push(group);
-                            });
-                        }, function (error) {
-                            console.error('Failed to load video dashboard database files.', error);
-                        });
+//                        $http.get('/json/ALL.json').then(onSuccessOld, onError);
+                        $http.get('/json/projects.json').then(onSuccess, onError);
                     };
+
+
+                    function onSuccess(response) {
+                        ctrl.groupedTabs = response.data;
+//                        console.log(JSON.stringify(ctrl.groupedTabs));
+                    }
+
+                    function onSuccessOld(response) {
+                        var rawData = response.data;
+                        ctrl.brandName = rawData.name;
+                        var tempGroups = {};
+                        // Group entries strictly by company field identifier values
+                        angular.forEach(rawData.videos, function (video) {
+                            var companyKey = video.company || rawData.name || 'General';
+                            if (!tempGroups[companyKey]) {
+                                tempGroups[companyKey] = {
+                                    title: companyKey,
+                                    videoList: []
+                                };
+                            }
+                            tempGroups[companyKey].videoList.push(video);
+                        });
+                        // Flatten out mapping payload array list
+                        angular.forEach(tempGroups, function (group) {
+                            ctrl.groupedTabs.push(group);
+                        });
+                        console.log(JSON.stringify(ctrl.groupedTabs));
+                    }
+
+
+
+
+                    function onError(error) {
+                        console.error('Failed to load video dashboard database files.', error);
+                    }
+
+
                 }]
         })
 
@@ -78,14 +89,12 @@ angular.module('myApp')
             controller: function MyTabsController() {
                 var ctrl = this;
                 ctrl.panes = [];
-
                 ctrl.select = function (pane) {
                     angular.forEach(ctrl.panes, function (p) {
                         p.selected = false;
                     });
                     pane.selected = true;
                 };
-
                 ctrl.addPane = function (pane) {
                     if (ctrl.panes.length === 0)
                         ctrl.select(pane);
