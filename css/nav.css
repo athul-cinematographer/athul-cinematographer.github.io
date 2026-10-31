@@ -25,8 +25,8 @@
         display: none;
     }
     .flexible-width {
-        /*margin: 10px;*/
         margin-left: 140px;
+        margin-right: 20px;
         position: absolute;
         top:0px;
     }
