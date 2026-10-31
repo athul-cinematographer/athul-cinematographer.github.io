@@ -12,6 +12,11 @@
         "my-projects": {},
         "my-tabs": {},
         "navigation": {},
+        "video-grid": {
+            "attributes": {
+                "list": {}
+            }
+        },
         "welcome-header": {
             "attributes": {
                 "user-name": {}

@@ -1,0 +1,24 @@
+<div class="video-grid-container">
+    <div class="video-card" ng-repeat="video in $ctrl.list">
+        <a ng-href="{{video.url}}" target="_blank" class="card-link">
+
+            <div class="thumbnail-container">
+                <!-- YouTube Static Image Engine -->
+
+                <img ng-src="/thumbnails/{{video.sm}}/{{video.thumbnail}}.jpg" 
+                     alt="Video dynamic placeholder" 
+                     ng-if2="video.sm === 'youtube'">
+
+                <!-- Instagram Layout Symbol Placeholder Frame -->
+                <div class="insta-placeholder" ng-if="video.sm === 'instagram'">
+                    <span class="icon">🎬</span>
+                    <p>Instagram Reel</p>
+                </div>
+
+                <span class="platform-badge" ng-class="video.sm">{{video.sm}}</span>
+            </div>
+
+
+        </a>
+    </div>
+</div>

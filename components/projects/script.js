@@ -5,25 +5,8 @@ angular.module('myApp')
          * Handles the async JSON loading and groups the data array by company
          */
         .component('zoyaVideoHub', {
-
-            template: `
-        <div class="dashboard-wrapper">
-          <header class="dashboard-header" >
-             <h2 id="projects" class="ay-padding-top-64">My Projects</h2>
-          </header>
-
-          <!-- Parent Custom Tabs Component -->
-          <my-tabs>
-            <!-- Outer Loop: Generates a tab for every unique company key -->
-            <my-pane ng-repeat="tab in $ctrl.groupedTabs" title="{{tab.title}}">
-              
-              <!-- Inner Video Grid View Component -->
-              <video-grid list="tab.videoList"></video-grid>
-
-            </my-pane>
-          </my-tabs>
-        </div>
-    `,
+            templateUrl: getRelativeTemplate('dashboard-wrapper', import.meta.url)
+            ,
             controller: ['$http', function ZoyaVideoHubController($http) {
                     var ctrl = this;
                     ctrl.groupedTabs = [];
@@ -127,30 +110,6 @@ angular.module('myApp')
             bindings: {
                 list: '<' // One-way bound data input source channel string
             },
-            template: `
-        <div class="video-grid-container">
-          <div class="video-card" ng-repeat="video in $ctrl.list">
-            <a ng-href="{{video.url}}" target="_blank" class="card-link">
-              
-              <div class="thumbnail-container">
-                <!-- YouTube Static Image Engine -->
-               
-       <img ng-src="/thumbnails/{{video.sm}}/{{video.thumbnail}}.jpg" 
-                     alt="Video dynamic placeholder" 
-                     ng-if2="video.sm === 'youtube'">
-                     
-                <!-- Instagram Layout Symbol Placeholder Frame -->
-                <div class="insta-placeholder" ng-if="video.sm === 'instagram'">
-                   <span class="icon">🎬</span>
-                   <p>Instagram Reel</p>
-                </div>
-                
-                <span class="platform-badge" ng-class="video.sm">{{video.sm}}</span>
-              </div>
+            templateUrl: getRelativeTemplate('video-grid-container', import.meta.url)
 
-              
-            </a>
-          </div>
-        </div>
-    `
         });

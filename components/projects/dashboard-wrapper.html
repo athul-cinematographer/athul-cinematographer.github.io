@@ -1,0 +1,16 @@
+    <div class="dashboard-wrapper">
+          <header class="dashboard-header" >
+             <h2 id="projects" class="ay-padding-top-64">My Projects</h2>
+          </header>
+
+          <!-- Parent Custom Tabs Component -->
+          <my-tabs>
+            <!-- Outer Loop: Generates a tab for every unique company key -->
+            <my-pane ng-repeat="tab in $ctrl.groupedTabs" title="{{tab.title}}">
+              
+              <!-- Inner Video Grid View Component -->
+              <video-grid list="tab.videoList"></video-grid>
+
+            </my-pane>
+          </my-tabs>
+        </div>
