@@ -21,31 +21,6 @@ angular.module('myApp')
 //                        console.log(JSON.stringify(ctrl.groupedTabs));
                     }
 
-                    function onSuccessOld(response) {
-                        var rawData = response.data;
-                        ctrl.brandName = rawData.name;
-                        var tempGroups = {};
-                        // Group entries strictly by company field identifier values
-                        angular.forEach(rawData.videos, function (video) {
-                            var companyKey = video.company || rawData.name || 'General';
-                            if (!tempGroups[companyKey]) {
-                                tempGroups[companyKey] = {
-                                    title: companyKey,
-                                    videoList: []
-                                };
-                            }
-                            tempGroups[companyKey].videoList.push(video);
-                        });
-                        // Flatten out mapping payload array list
-                        angular.forEach(tempGroups, function (group) {
-                            ctrl.groupedTabs.push(group);
-                        });
-                        console.log(JSON.stringify(ctrl.groupedTabs));
-                    }
-
-
-
-
                     function onError(error) {
                         console.error('Failed to load video dashboard database files.', error);
                     }
