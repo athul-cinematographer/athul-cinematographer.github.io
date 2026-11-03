@@ -7,15 +7,22 @@
 
                 <img ng-src="/thumbnails/{{video.sm}}/{{video.thumbnail}}.jpg" 
                      alt="Video dynamic placeholder"  ng-if2="video.sm === 'youtube'">
+                
+                 <svg class="play-button" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="90" fill="rgba(0,0,0,0.5)" stroke2="#fff" stroke-width="10"></circle>
+                <polygon points="70,55 70,145 145,100" fill="#fff"></polygon>
+                </svg>
 
                 <!-- Instagram Layout Symbol Placeholder Frame -->
-                <div class="insta-placeholder" ng-if="video.sm === 'instagram'">
+<!--                <div class="insta-placeholder" ng-if="video.sm === 'instagram'">
                     <span class="icon">🎬</span>
                     <p>Instagram Reel</p>
-                </div>
+                </div>-->
 
                 <!--<span class="platform-badge" ng-class="video.sm">{{video.sm}}</span>-->
-                   <span class="platform-badge" ng-class="video.sm">{{video.order}}</span>
+                <span class="platform-badge" ng-class="video.sm">{{video.order}}</span>
+
+               
             </div>
 
 
